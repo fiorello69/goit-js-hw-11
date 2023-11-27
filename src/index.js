@@ -40,7 +40,7 @@ async function loadMoreImages(query) {
   try {
     loading = true;
     const response = await fetchImages(query, currentPage);
-    const { hits, totalHits } = response;
+    const { hits } = response;
 
     if (hits.length === 0) {
       Notiflix.Notify.info(
@@ -49,6 +49,19 @@ async function loadMoreImages(query) {
     } else {
       appendImagesToGallery(response);
       currentPage++;
+      // Calculează înălțimea unei cărți
+      const { height: cardHeight } = document
+        .querySelector('.gallery')
+        .firstElementChild.getBoundingClientRect();
+
+      // Calculează cât de mult să facem scroll în jos (de exemplu, 2 cărți înălțime)
+      const scrollAmount = cardHeight * 1;
+
+      // Face scroll fluid către partea de jos a galeriei
+      window.scrollBy({
+        top: scrollAmount,
+        behavior: 'smooth',
+      });
     }
   } catch (error) {
     handleErrors(error);
@@ -83,15 +96,13 @@ form.addEventListener('submit', async function (event) {
     }
   }
 });
-
 window.addEventListener('scroll', function () {
   if (loading) return;
 
   const scrollPosition = window.scrollY + window.innerHeight;
   const pageHeight = document.body.scrollHeight;
 
-  // Dacă utilizatorul este aproape de sfârșitul paginii, încarcă mai mult conținut
-  if (scrollPosition >= pageHeight - 200) {
+  if (scrollPosition >= pageHeight - 500) {
     const searchQuery = form.searchQuery.value;
     if (searchQuery) {
       loadMoreImages(searchQuery);

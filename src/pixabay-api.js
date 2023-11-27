@@ -13,7 +13,6 @@ export async function fetchImages(query, page) {
         per_page: 40,
       },
     });
-
     return response.data;
   } catch (error) {
     console.error('Error fetching images:', error);

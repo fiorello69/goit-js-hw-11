@@ -1,0 +1,128 @@
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+   background: #FFEFBA;  
+background: -webkit-linear-gradient(to right, #FFFFFF, #FFEFBA);  
+background: linear-gradient(to right, #FFFFFF, #FFEFBA); 
+}
+
+.search-form {
+  margin: 20px;
+  text-align: center;
+}
+
+.search-form input {
+  padding: 6px;
+  font-size: 28px;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+ 
+}
+
+.photo-card {
+  width: 23%;
+  box-sizing: border-box;
+  margin: 5px;
+  text-align: center;
+}
+
+.photo-card img {
+  width: 340px;
+  height: 200px;
+  -webkit-box-shadow: 10px 7px 14px 8px rgba(0,0,0,0.66);
+-moz-box-shadow: 10px 7px 14px 8px rgba(0,0,0,0.66);
+box-shadow: 10px 7px 14px 8px rgba(0,0,0,0.66);
+}
+
+.photo-card .info {
+  margin-top: 10px;
+}
+
+.search-btn {
+  appearance: none;
+  background-color: #FFFFFF;
+  border-radius: 40em;
+  border-style: none;
+  box-shadow: #ADCFFF 0 -12px 6px inset;
+  box-sizing: border-box;
+  color: #000000;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -.24px;
+  margin-left: 10px;
+  outline: none;
+  padding: 1rem 1.3rem;
+  quotes: auto;
+  text-align: center;
+  text-decoration: none;
+  transition: all .15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.search-btn:hover {
+  background-color: #FFC229;
+  box-shadow: #FF6314 0 -6px 8px inset;
+  transform: scale(1.125);
+}
+
+.search-btn:active {
+  transform: scale(1.025);
+}
+
+@media (min-width: 768px) {
+  .search-btn {
+    font-size: 1.5rem;
+    padding: .75rem 2rem;
+  }
+}
+
+.load-more {
+  --c: #fff;
+  /* text color */
+  background: linear-gradient(90deg, #0000 33%, #fff5, #0000 67%) var(--_p, 100%)/300% no-repeat,
+    #ffa200;
+  /* background color */
+  color: #0000;
+  border: none;
+  transform: perspective(500px) rotateY(calc(20deg*var(--_i, -1)));
+  text-shadow: calc(var(--_i, -1)* 0.08em) -.01em 0 var(--c),
+    calc(var(--_i, -1)*-0.08em) .01em 2px #0004;
+  outline-offset: .1em;
+  transition: 0.3s;
+}
+
+.load-more:hover,
+.load-more:focus-visible {
+  --_p: 0%;
+  --_i: 1;
+}
+
+.load-more:active {
+  text-shadow: none;
+  color: var(--c);
+  box-shadow: inset 0 0 9e9q #0005;
+  transition: 0s;
+}
+
+.load-more {
+  font-weight: bold;
+  font-size: 2rem;
+  margin: 0;
+  cursor: pointer;
+  padding: .1em .3em;
+}

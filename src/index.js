@@ -5,9 +5,9 @@ import { fetchImages } from './pixabay-api.js';
 
 const form = document.getElementById('search-form');
 const gallery = document.querySelector('.gallery');
-const loadMoreButton = document.querySelector('.load-more');
 const lightbox = new SimpleLightbox('.gallery a');
 let currentPage = 1;
+let loading = false;
 
 function createPhotoCard(image) {
   return `
@@ -29,7 +29,6 @@ function appendImagesToGallery(images) {
   const cardsHTML = images.hits.map(createPhotoCard).join('');
   gallery.insertAdjacentHTML('beforeend', cardsHTML);
   lightbox.refresh();
-  loadMoreButton.style.display = 'block';
 }
 
 function handleErrors(error) {
@@ -39,6 +38,7 @@ function handleErrors(error) {
 
 async function loadMoreImages(query) {
   try {
+    loading = true;
     const response = await fetchImages(query, currentPage);
     const { hits, totalHits } = response;
 
@@ -46,13 +46,14 @@ async function loadMoreImages(query) {
       Notiflix.Notify.info(
         "We're sorry, but you've reached the end of search results."
       );
-      loadMoreButton.style.display = 'none';
     } else {
       appendImagesToGallery(response);
       currentPage++;
     }
   } catch (error) {
     handleErrors(error);
+  } finally {
+    loading = false;
   }
 }
 
@@ -62,7 +63,6 @@ form.addEventListener('submit', async function (event) {
 
   if (searchQuery) {
     gallery.innerHTML = '';
-    loadMoreButton.style.display = 'none';
     currentPage = 1;
 
     try {
@@ -84,11 +84,17 @@ form.addEventListener('submit', async function (event) {
   }
 });
 
-loadMoreButton.addEventListener('click', function () {
-  const searchQuery = form.searchQuery.value;
-  if (searchQuery) {
-    loadMoreImages(searchQuery);
+window.addEventListener('scroll', function () {
+  if (loading) return;
+
+  const scrollPosition = window.scrollY + window.innerHeight;
+  const pageHeight = document.body.scrollHeight;
+
+  // Dacă utilizatorul este aproape de sfârșitul paginii, încarcă mai mult conținut
+  if (scrollPosition >= pageHeight - 200) {
+    const searchQuery = form.searchQuery.value;
+    if (searchQuery) {
+      loadMoreImages(searchQuery);
+    }
   }
 });
-
-loadMoreButton.style.display = 'none';
